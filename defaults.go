@@ -157,18 +157,19 @@ const DefaultTemplate = `
     <div class="content">
         <p style="margin-top: 0;">
             This is the report of your most recent drone pipeline build.
-            It finished Mon Jan 2 15:04:05 MST 2006.
+            It finished {{ datetime build.finished "Mon Jan 2 15:04:05 MST 2006" "Local" }}.
         </p>
-        <!--<img src="https://github.com/JonasBernard/drone-email/raw/master/img/{{build.status}}.png" />-->
 
         <p>
-        <div class="alert alert-good flex justify-center">
-            <span>Successful build #25</span>
-        </div>
-        <!-- 
-          <div class="m-2 alert alert-bad flex justify-center">
-            <span>Failed build #{{ build.number }}</span>
-          </div> -->
+            {{#success build.status}}
+             <div class="alert alert-good">
+               <span>Successful build #{{ build.number }}</span>
+             </div>
+           {{else}}
+             <div class="alert alert-bad">
+               <span>Failed build #{{ build.number }}</span>
+             </div>
+           {{/success}}
         </p>
 
         <p>
@@ -180,20 +181,20 @@ const DefaultTemplate = `
                 <table class="w-full" cellpadding="0" cellspacing="0">
                     <tbody>
                         <tr>
-                            <td><strong><a href="#">57af32: Some sample commit that does not exist.</a></strong></td>
-                            <td style="text-align: right;"><small class="badge">master</small></td>
+                            <td><strong><a href="{{commit.link}}">{{ truncate commit.sha 8 }}: {{commit.message}}</a></strong></td>
+                            <td style="text-align: right;"><small class="badge">{{commit.branch}}</small></td>
                         </tr>
                     </tbody>
                 </table>
                 <table class="w-full" cellpadding="0" cellspacing="0">
                     <tbody>
                         <tr>
-                            <td style="width: 35px"><img class="m-2" src="logo.svg" style="border-radius: 50%;"
-                                    width="40px" height="40px" alt="Avatar of nobody"></td>
+                            <td style="width: 35px"><img class="m-2" src="{{commit.author.avatar}}" style="border-radius: 50%;"
+                                    width="40px" height="40px" alt="Avatar of {{commit.author.name}}"></td>
                             <td>
                                 <div>
-                                    <strong>Commit Author</strong><br>
-                                    mail@the-committer.com
+                                    <strong>{{commit.author.name}}</strong><br>
+                                    {{commit.author.email}}
                                 </div>
                             </td>
                         </tr>
@@ -205,7 +206,7 @@ const DefaultTemplate = `
 
         <div class="bg-secondary card">
             <div class="card-header">
-                Some useful links:
+                Here are some useful links:
             </div>
             <div class="card-body">
                 <table class="w-full" cellpadding="0" cellspacing="0">
@@ -214,7 +215,7 @@ const DefaultTemplate = `
                             See the build on drone:
                         </td>
                         <td>
-                            <a href="#">Build #25, Success</a>
+                            <a href="{{build.link}}">Build #{{build.number}}, {{build.status}}</a>
                         </td>
                     </tr>
                     <tr>
@@ -222,7 +223,7 @@ const DefaultTemplate = `
                             Link to the commit:
                         </td>
                         <td>
-                            <a href="#">57af32: Some sample commit that does not exist.</a>
+                            <a href="{{commit.link}}">{{ truncate commit.sha 8 }}: {{commit.message}}</a>
                         </td>
                     </tr>
                     <tr>
@@ -230,7 +231,7 @@ const DefaultTemplate = `
                             Link to the repository:
                         </td>
                         <td>
-                            <a href="#">drillster/drone-email</a>
+                            <a href="{{repo.link}}">{{repo.fullName}}</a>
                         </td>
                     </tr>
                     <tr>
@@ -238,7 +239,7 @@ const DefaultTemplate = `
                             Started at:
                         </td>
                         <td>
-                            Mon Jan 2 15:04:05 MST 2006
+                            {{ datetime build.created "Mon Jan 2 15:04:05 MST 2006" "Local" }}
                         </td>
                     </tr>
                 </table>
