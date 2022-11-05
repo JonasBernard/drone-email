@@ -49,29 +49,28 @@ const DefaultTemplate = `
             bottom: 0;
         }
         
-        /* We ommit the light-theme media query here to catch every mail clients that do not support media querys at all */
-        /* imagine a @media (prefers-color-scheme: light) here */
-            body {
-                background-color: rgb(241, 241, 241);
-                color: black;
-            }
+        @media (prefers-color-scheme: light) {
+          body {
+              background-color: rgb(241, 241, 241);
+              color: black;
+          }
+        
+          .bg-secondary {
+            background-color: #ececec;
+            
+            /* Not working in GMail */
+            box-shadow: #a5a5a5a5 0px 0px 25px;
+          }
 
-            .bg-secondary {
-                background-color: #ececec;
-
-                /* Not working in GMail */
-                box-shadow: #a5a5a5a5 0px 0px 25px;
-            }
-
-            .badge {
-                background-color: #d2d2d2;
-            }
-
-            .card-header {
-                background-color: #240e62;
-            }
-        /* end of imaginary media query */
-
+          .badge {
+              background-color: #d2d2d2;
+          }
+          
+          .card-header {
+            background-color: #240e62;
+          }
+        }
+              
         @media (prefers-color-scheme: dark) {
             body {
                 background-color: rgb(30, 30, 30);
