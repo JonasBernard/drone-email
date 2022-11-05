@@ -42,7 +42,7 @@ steps:
       from_secret: ORG_MAIL_SMTP_USERNAME
     password:
       from_secret: ORG_MAIL_SMTP_PASSWORD
-    Subject:  "PREVIEW: Successul build on {{ commit.branch }} on {{ repo.owner }}/{{ repo.name }}"
+    Subject:  "PREVIEW: Successful build on {{ commit.branch }} on {{ repo.owner }}/{{ repo.name }}"
 
 - name: artificial fail
   image: alpine
